@@ -1,0 +1,54 @@
+{%comment%}
+<script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+<script src="https://ucarecdn.com/libs/widget-tab-effects/1.x/uploadcare.tab-effects.min.js" charset="utf-8"></script>
+<script>
+  UPLOADCARE_PUBLIC_KEY = 'dbeb9ef857ce02b4c850';
+  uploadcare.registerTab('preview', uploadcareTabEffects);
+  UPLOADCARE_EFFECTS = 'crop,rotate,enhance,sharp,grayscale' 
+</script>
+{%endcomment%}
+
+
+
+<script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+<script src="https://ucarecdn.com/libs/widget-tab-effects/1.x/uploadcare.tab-effects.js"></script>
+
+<script>
+  UPLOADCARE_PUBLIC_KEY = 'dbeb9ef857ce02b4c850';
+  UPLOADCARE_EFFECTS = 'crop,rotate,mirror,flip,enhance,sharp,blur,grayscale,invert';
+  UPLOADCARE_IMAGES_ONLY = true;
+  UPLOADCARE_PREVIEW_STEP = true;
+  UPLOADCARE_CLEARABLE = true;
+</script>
+
+<script>
+  uploadcare.registerTab('preview', uploadcareTabEffects)
+</script>
+
+
+<script>
+var widget = uploadcare.Widget('[role=uploadcare-uploader]');
+  //var productImage = document.querySelector('.gallery-cell .image__container img');
+  var frameSelector = document.getElementById('frame');
+  var uploadedImage = null;
+  var currentFrame = frameSelector.options[frameSelector.selectedIndex].dataset.frameId;
+  
+  widget.onUploadComplete(function (fileInfo) {
+    uploadedImage = fileInfo.cdnUrl;
+    //productImage.src = uploadedImage + '-/resize/320x520/-/stretch/fill/-/resize/400x600/-/overlay/' + currentFrame + '/';
+    // clears the default srcset of the product image
+    //productImage.dataset.srcset = productImage.srcset = '';
+    localStorage.setItem("uploadimg", uploadedImage);
+   	var getImagURL = localStorage.getItem("uploadimg");
+        $(".product_gallery img").css("background-image", "url(" + getImagURL + ")");
+    $(".cart_image img").css("background-image", "url(" + getImagURL + ")");
+});
+
+  
+frameSelector.addEventListener('change', function (e) {
+    currentFrame = e.target.options[e.target.selectedIndex].dataset.frameId;
+    if (uploadedImage !== null) {
+      //productImage.src = uploadedImage + '-/resize/320x520/-/stretch/fill/-/resize/400x600/-/overlay/' + currentFrame + '/';
+    }
+});
+</script>
